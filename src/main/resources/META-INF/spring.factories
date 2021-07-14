@@ -1,0 +1,3 @@
+#run Listener
+org.springframework.boot.SpringApplicationRunListener=\
+org.hieka.listener.DemoRunListener

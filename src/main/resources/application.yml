@@ -1,0 +1,22 @@
+
+spring:
+  application:
+    name: DemoAppYML
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
+#    time-zone: GMT+8
+  cloud:
+    #设置nacos 配置
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    #设置sentinel 注册地址
+    sentinel:
+      transport:
+        dashboard: localhost:9090
+        heartbeat-interval-ms: 500
+        eager: true
+
+logging:
+  path: /logs/
+  levels: debug

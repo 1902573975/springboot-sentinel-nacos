@@ -1,0 +1,26 @@
+
+1.配置优先级顺序：
+config/application.yml > application.yml > resources/application.yml
+application.properties > application.yml
+配置文件读取顺序：
+resources/application.yml >application.yml > config/application.yml
+application.yml > application.properties
+读取配置时，后读取的配置会覆盖先读取到值，所以配置文件最高级的是config/application.yml(properties)
+properties比yml等级高。
+
+2. banner.text 是springboot 的banner。
+
+
+3.SpringApplicationRunListener
+实现该接口，会在springboot启动的每个过程调用特定的方法，
+
+4 使用lombok 实现getter 和setter
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <optional>true</optional>
+</dependency>
+
+5 指定bean的作用域 ，需要设置为lazy
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)

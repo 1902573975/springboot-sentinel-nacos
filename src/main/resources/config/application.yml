@@ -1,0 +1,8 @@
+
+spring:
+  application:
+    name: DemoAppYMLConfig
+
+org:
+  hieka:
+    commBean: true
