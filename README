@@ -24,3 +24,13 @@ properties比yml等级高。
 5 指定bean的作用域 ，需要设置为lazy
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+
+
+6 开始wsdl 接口
+暴露接口 org.hieka.wsdl.impl.WeatherImpl
+org.hieka.conf.WSDLConfig 中暴露
+
+7
+在META-INF/spring.factories 内配置，会自动加载特定类。
+
+8 在application.yml中配置sentinel 和nacos ，让服务自动组测到nacos，使用sentinel限流程
