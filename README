@@ -1,6 +1,6 @@
 
 1.配置优先级顺序：
-config/application.yml > application.yml > resources/application.yml
+config/application.yml > application.yml > resources/config/application.yml  > resources/application.yml
 application.properties > application.yml
 配置文件读取顺序：
 resources/application.yml >application.yml > config/application.yml
