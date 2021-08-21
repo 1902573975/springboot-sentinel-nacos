@@ -16,6 +16,7 @@ spring:
         dashboard: localhost:9090
         heartbeat-interval-ms: 500
         eager: true
+      #指定sentinel的数据中心使用nacos
       datasource:
         ds2:
           nacos:

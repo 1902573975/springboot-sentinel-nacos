@@ -34,3 +34,60 @@ org.hieka.conf.WSDLConfig 中暴露
 在META-INF/spring.factories 内配置，会自动加载特定类。
 
 8 在application.yml中配置sentinel 和nacos ，让服务自动组测到nacos，使用sentinel限流程
+
+
+
+使用nacos存储sentinel的配置
+1.下载sentinel代码，修改sentinel代码
+打开pom.xml 文件修改
+<dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+            <scope>test</scope>
+        </dependency>
+为
+<dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
+
+2.将测试包下的 com.alibaba.csp.sentinel.dashboard.rule.nacos所有文件拷贝到main目录下对应的位置
+
+3.修改NacosConfig.java内的ConfigService 的路径，指定nacos的位置
+return ConfigFactory.createConfigService("127.0.0.1:8848");
+
+
+4.修改FlowControllerV2.java中的注入对象为nacos的提供者和订阅者
+@Autowired
+    @Qualifier("flowRuleNacosProvider")
+    private DynamicRuleProvider<List<FlowRuleEntity>> ruleProvider;
+    @Autowired
+    @Qualifier("flowRuleNacosPublisher")
+    private DynamicRulePublisher<List<FlowRuleEntity>> rulePublisher;
+
+5. 修改NacosConfigUtil.java 的常量 FLOW_DATA_ID_POSTFIX 为空字符串，否则sentinel推送数据到nacos时，会自动在dataId加上这个后缀。
+public static final String FLOW_DATA_ID_POSTFIX = "";//-flow-rules
+
+
+6.修改资源文件 app/scripts/directives/sidebar/sidebar.html, 打开nacos的配置页面,到此，sentinel的配置修改完成，可打包成jar运行。
+<li ui-sref-active="active" ng-if="entry.appType==0">
+            <a ui-sref="dashboard.flow({app: entry.app})">
+              <i class="glyphicon glyphicon-filter"></i>&nbsp;&nbsp;流控规则 V1</a>
+          </li>
+
+项目中配置sentinel使用nacos
+spring:
+  cloud:
+    sentinel:
+      #指定sentinel的数据中心使用nacos
+      datasource:
+        ds2:
+          nacos:
+            serverAddr: localhost:8848
+            dataId: sentinel
+            groupId: SENTINEL_GROUP
+            dataType: json
+            ruleType: flow
+
+要想sentinel与nacos保持一直性，必须保证注册到sentinel的服务名称跟配置在nacos的dataId保持一致，sentinel更改后会使用服务名称去找到nacos中的配置文件，
+去更新 对应的文件。
