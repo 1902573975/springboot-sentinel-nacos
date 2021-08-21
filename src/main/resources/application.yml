@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: DemoAppYML
+    name: sentinel
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss
 #    time-zone: GMT+8
@@ -16,7 +16,22 @@ spring:
         dashboard: localhost:9090
         heartbeat-interval-ms: 500
         eager: true
+      datasource:
+        ds2:
+          nacos:
+            serverAddr: localhost:8848
+            dataId: sentinel
+            groupId: SENTINEL_GROUP
+            dataType: json
+            ruleType: flow
 
 logging:
   path: /logs/
   levels: debug
+
+wsdl:
+  port: 12345
+
+org:
+  hieka:
+    commBean: true
